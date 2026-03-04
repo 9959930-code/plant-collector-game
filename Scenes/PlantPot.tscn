@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://b_pot_scene"]
+
+[ext_resource type="Script" path="res://Scripts/PlantPot.gd" id="1_pot"]
+[ext_resource type="Texture2D" uid="uid://plant" path="res://Assets/Images/plant_placeholder.png" id="2_pot"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pot"]
+size = Vector2(100, 100)
+
+[node name="PlantPot" type="Area2D"]
+script = ExtResource("1_pot")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_pot")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pot")
+
+[node name="GrowTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StatusLabel" type="Label" parent="."]
+offset_left = -50.0
+offset_top = 60.0
+offset_right = 50.0
+offset_bottom = 110.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "[씨앗]
+물 필요"
+horizontal_alignment = 1
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

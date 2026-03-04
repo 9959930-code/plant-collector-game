@@ -1,0 +1,14 @@
+# Godot 4.x .gitignore
+.godot/
+*.translation
+export_presets.cfg
+*.tmp
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc

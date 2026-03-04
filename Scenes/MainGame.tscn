@@ -1,0 +1,101 @@
+[gd_scene load_steps=3 format=3 uid="uid://main_game_scene"]
+
+[ext_resource type="Script" path="res://Scripts/MainGame.gd" id="1_mgs"]
+[ext_resource type="Texture2D" uid="uid://bg_greenhouse" path="res://Assets/Images/bg_greenhouse.png" id="2_bg"]
+
+[node name="MainGame" type="Node2D"]
+script = ExtResource("1_mgs")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_bg")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TopBar" type="ColorRect" parent="UI"]
+offset_right = 1152.0
+offset_bottom = 60.0
+color = Color(0.2, 0.3, 0.2, 1)
+
+[node name="MoneyLabel" type="Label" parent="UI/TopBar"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 15.0
+offset_right = 230.0
+offset_bottom = 45.0
+theme_override_font_sizes/font_size = 20
+text = "자금: 0 G"
+
+[node name="DayLabel" type="Label" parent="UI/TopBar"]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 15.0
+offset_right = 600.0
+offset_bottom = 45.0
+theme_override_font_sizes/font_size = 20
+text = "Day 1"
+
+[node name="WeatherLabel" type="Label" parent="UI/TopBar"]
+layout_mode = 0
+offset_left = 900.0
+offset_top = 15.0
+offset_right = 1100.0
+offset_bottom = 45.0
+theme_override_font_sizes/font_size = 20
+text = "날씨: 맑음"
+horizontal_alignment = 2
+
+[node name="LogBox" type="ColorRect" parent="UI"]
+offset_left = 30.0
+offset_top = 450.0
+offset_right = 530.0
+offset_bottom = 620.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="LogText" type="RichTextLabel" parent="UI/LogBox"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 485.0
+offset_bottom = 155.0
+theme_override_font_sizes/normal_font_size = 16
+text = "게임 시스템 로그..."
+scroll_following = true
+
+[node name="ExploreButton" type="Button" parent="UI"]
+offset_left = 600.0
+offset_top = 450.0
+offset_right = 810.0
+offset_bottom = 510.0
+theme_override_font_sizes/font_size = 20
+text = "탐험하기 🌿"
+
+[node name="ShopButton" type="Button" parent="UI"]
+offset_left = 600.0
+offset_top = 520.0
+offset_right = 810.0
+offset_bottom = 580.0
+theme_override_font_sizes/font_size = 20
+text = "화분 구매 🛒"
+
+[node name="CraftButton" type="Button" parent="UI"]
+offset_left = 830.0
+offset_top = 450.0
+offset_right = 1040.0
+offset_bottom = 510.0
+theme_override_font_sizes/font_size = 20
+text = "가공 제작 🎨"
+
+[node name="SellButton" type="Button" parent="UI"]
+offset_left = 830.0
+offset_top = 520.0
+offset_right = 1040.0
+offset_bottom = 580.0
+theme_override_font_sizes/font_size = 20
+text = "판매하기 💰"
+
+[connection signal="pressed" from="UI/ExploreButton" to="." method="_on_explore_button_pressed"]
+[connection signal="pressed" from="UI/ShopButton" to="." method="_on_shop_button_pressed"]
+[connection signal="pressed" from="UI/CraftButton" to="." method="_on_craft_button_pressed"]
+[connection signal="pressed" from="UI/SellButton" to="." method="_on_sell_button_pressed"]
