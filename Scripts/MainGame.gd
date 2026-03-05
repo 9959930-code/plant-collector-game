@@ -165,8 +165,8 @@ func trigger_diary(key: String):
 func receive_letter():
 	var letter = npc_letters[randi() % npc_letters.size()]
 	unread_letters.append(letter)
-	add_log("📬 편지가 도착했습니다! - From. %s" % letter["sender"])
-	add_log("   \"%s\"" % letter["text"])
+	add_log("📬 편지가 도착했습니다! - From. " + str(letter["sender"]))
+	add_log("   " + str(letter["text"]))
 
 # ── 보상형 광고 시스템 ──
 func _on_water_ad_pressed():
