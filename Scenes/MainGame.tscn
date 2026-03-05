@@ -95,7 +95,34 @@ offset_bottom = 580.0
 theme_override_font_sizes/font_size = 20
 text = "판매하기 💰"
 
+[node name="WaterAdButton" type="Button" parent="UI"]
+offset_left = 600.0
+offset_top = 590.0
+offset_right = 810.0
+offset_bottom = 640.0
+theme_override_font_sizes/font_size = 16
+text = "🎬 물 빨리 채우기"
+
+[node name="SeedAdButton" type="Button" parent="UI"]
+offset_left = 830.0
+offset_top = 590.0
+offset_right = 1040.0
+offset_bottom = 640.0
+theme_override_font_sizes/font_size = 16
+text = "🎬 씨앗 자판기"
+
+[node name="StatusLabel" type="Label" parent="UI"]
+offset_left = 30.0
+offset_top = 420.0
+offset_right = 530.0
+offset_bottom = 445.0
+theme_override_font_sizes/font_size = 14
+text = ""
+
 [connection signal="pressed" from="UI/ExploreButton" to="." method="_on_explore_button_pressed"]
 [connection signal="pressed" from="UI/ShopButton" to="." method="_on_shop_button_pressed"]
 [connection signal="pressed" from="UI/CraftButton" to="." method="_on_craft_button_pressed"]
 [connection signal="pressed" from="UI/SellButton" to="." method="_on_sell_button_pressed"]
+[connection signal="pressed" from="UI/WaterAdButton" to="." method="_on_water_ad_pressed"]
+[connection signal="pressed" from="UI/SeedAdButton" to="." method="_on_seed_ad_pressed"]
+
