@@ -169,21 +169,32 @@ func receive_letter():
 	add_log("   " + str(letter["text"]))
 
 # ── 보상형 광고 시스템 ──
+func _get_admob():
+	return get_node_or_null("/root/AdMobManager")
+
 func _on_water_ad_pressed():
 	# 광고 시청 → 모든 화분에 즉시 물주기
 	add_log("🎬 광고를 시청하면 모든 화분에 물을 줍니다!")
-	AdMobManager.show_rewarded("water_boost")
-	AdMobManager.connect("rewarded_ad_completed", Callable(self, "_on_reward_received"), CONNECT_ONE_SHOT)
+	var admob = _get_admob()
+	if admob:
+		admob.show_rewarded("water_boost")
+		admob.connect("rewarded_ad_completed", Callable(self, "_on_reward_received"), CONNECT_ONE_SHOT)
+	else:
+		# AdMob 미설치 시 바로 보상 지급
+		_on_reward_received("water_boost")
 
 func _on_seed_ad_pressed():
 	# 광고 시청 → 무료 화분 1개 (특별한 씨앗)
 	add_log("🎬 광고를 시청하면 특별한 씨앗을 받습니다!")
-	AdMobManager.show_rewarded("seed_vending")
-	AdMobManager.connect("rewarded_ad_completed", Callable(self, "_on_reward_received"), CONNECT_ONE_SHOT)
+	var admob = _get_admob()
+	if admob:
+		admob.show_rewarded("seed_vending")
+		admob.connect("rewarded_ad_completed", Callable(self, "_on_reward_received"), CONNECT_ONE_SHOT)
+	else:
+		_on_reward_received("seed_vending")
 
 func _on_reward_received(reward_type: String):
 	if reward_type == "water_boost":
-		# 모든 화분에 즉시 물주기
 		var watered_count = 0
 		for pot in pots:
 			if not pot.is_watered:
@@ -191,12 +202,12 @@ func _on_reward_received(reward_type: String):
 				watered_count += 1
 		add_log("💧 보상 완료! %d개의 화분에 물을 주었습니다!" % watered_count)
 	elif reward_type == "seed_vending":
-		# 특별한 씨앗 무료 지급
 		var special_seeds = ["금잔화", "수국", "오키드", "벚꽃", "무지개 장미"]
 		var chosen = special_seeds[randi() % special_seeds.size()]
 		var offset_x = 300 + (pots.size() * 150)
 		spawn_new_pot(Vector2(offset_x, 324), chosen)
 		add_log("🌟 특별한 [%s] 씨앗을 받았습니다!" % chosen)
+
 
 
 

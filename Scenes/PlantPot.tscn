@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b_pot_scene"]
 
 [ext_resource type="Script" path="res://Scripts/PlantPot.gd" id="1_pot"]
-[ext_resource type="Texture2D" uid="uid://plant" path="res://Assets/Images/plant_placeholder.png" id="2_pot"]
+[ext_resource type="Texture2D" path="res://Assets/Images/plant_soil.png" id="2_pot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pot"]
 size = Vector2(100, 100)
