@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://title_screen_scene"]
+[gd_scene load_steps=3 format=3 uid="uid://title_screen_scene"]
 
 [ext_resource type="Script" path="res://Scripts/TitleScreen.gd" id="1_ts"]
 [ext_resource type="Texture2D" uid="uid://bg_title" path="res://Assets/Images/bg_title.png" id="2_bg"]

@@ -38,7 +38,7 @@ func _ready():
 	# 초기 씬: 사무실
 	rain_particles.emitting = false
 	background.texture = tex_office
-	plant_image.texture = null # 초반엔 화분 안보임
+	plant_image.visible = false # 초반엔 화분 안보임
 	
 	type_timer.connect("timeout", Callable(self, "_on_type_timer_timeout"))
 	show_line()
@@ -74,6 +74,7 @@ func show_line():
 	if current_line_index == 2:
 		# [사무실] 키보드 왼쪽 흰색 종이 위
 		# 이미지상 (370, 530) → 뷰포트 (416, 336)
+		plant_image.visible = true
 		plant_image.texture = tex_soil
 		plant_image.scale = Vector2(0.12, 0.12)
 		plant_container.position = Vector2(416, 336)
