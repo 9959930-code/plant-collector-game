@@ -10,7 +10,11 @@ size = Vector2(1280, 20)
 size = Vector2(20, 960)
 
 [node name="FieldMap" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_fm")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(1, 0.95, 0.85, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
 position = Vector2(640, 480)

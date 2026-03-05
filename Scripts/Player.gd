@@ -7,6 +7,7 @@ const SPEED = 80.0
 
 @onready var anim_sprite = $AnimatedSprite2D
 @onready var interact_ray = $InteractRay
+@onready var dust_particles = $DustParticles
 
 var direction = "down"
 var is_moving = false
@@ -96,8 +97,10 @@ func _physics_process(_delta):
 func update_animation():
 	if is_moving:
 		anim_sprite.play("walk_" + direction)
+		dust_particles.emitting = true
 	else:
 		anim_sprite.play("idle_" + direction)
+		dust_particles.emitting = false
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept"):

@@ -32,8 +32,9 @@ func _ready():
 		update_ui()
 
 func _generate_procedural_map():
-	# 동적 타일맵 레이어 생성 (통짜 이미지가 아닌 진짜 게임맵)
+	# 동적 타일맵 레이어 생성
 	tilemap = TileMapLayer.new()
+	tilemap.y_sort_enabled = true
 	add_child(tilemap)
 	move_child(tilemap, 0)
 	
