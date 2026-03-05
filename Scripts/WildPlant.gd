@@ -10,12 +10,12 @@ var _pending_setup: Dictionary = {}
 
 # 식물 스프라이트시트에서 각 식물의 영역 (6종)
 var plant_regions = {
-	"라벤더": Rect2(0, 300, 80, 120),
-	"민들레": Rect2(90, 300, 80, 120),
-	"들꽃": Rect2(180, 300, 80, 120),
-	"데이지": Rect2(270, 300, 80, 120),
-	"클로버": Rect2(360, 300, 80, 120),
-	"제비꽃": Rect2(450, 300, 80, 120),
+	"라벤더": Rect2(0, 0, 64, 64),
+	"민들레": Rect2(64, 0, 64, 64),
+	"들꽃": Rect2(128, 0, 64, 64),
+	"데이지": Rect2(192, 0, 64, 64),
+	"클로버": Rect2(256, 0, 64, 64),
+	"제비꽃": Rect2(320, 0, 64, 64),
 }
 
 func _ready():
@@ -47,10 +47,10 @@ func _apply_setup(data: Dictionary):
 			# 기본: 첫 번째 식물 사용
 			var atlas = AtlasTexture.new()
 			atlas.atlas = sheet
-			atlas.region = Rect2(0, 300, 80, 120)
+			atlas.region = Rect2(0, 0, 64, 64)
 			spr.texture = atlas
 		
-		spr.scale = Vector2(0.35, 0.35)
+		# 스프라이트 스케일 강제 설정(0.35) 제거. 1:1 디스플레이 유지
 	
 	if lbl:
 		lbl.text = data["name"]

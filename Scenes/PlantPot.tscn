@@ -1,31 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://b_pot_scene"]
+[gd_scene load_steps=5 format=3 uid="uid://plant_pot_scene"]
 
 [ext_resource type="Script" path="res://Scripts/PlantPot.gd" id="1_pot"]
-[ext_resource type="Texture2D" path="res://Assets/Images/plant_soil.png" id="2_pot"]
+[ext_resource type="Texture2D" path="res://Assets/Images/balcony_props.png" id="2_props"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shadow"]
+bg_color = Color(0, 0, 0, 0.4)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pot"]
-size = Vector2(100, 100)
+size = Vector2(32, 20)
 
 [node name="PlantPot" type="Area2D"]
+y_sort_enabled = true
 script = ExtResource("1_pot")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_pot")
+[node name="Shadow" type="Panel" parent="."]
+offset_left = -14.0
+offset_top = -2.0
+offset_right = 14.0
+offset_bottom = 6.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_shadow")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_props")
+offset = Vector2(0, -18)
+region_enabled = true
+region_rect = Rect2(9, 142, 57, 59)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_pot")
 
-[node name="GrowTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="StatusLabel" type="Label" parent="."]
-offset_left = -50.0
-offset_top = 60.0
-offset_right = 50.0
-offset_bottom = 110.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "[씨앗]
-물 필요"
-horizontal_alignment = 1
-
-[connection signal="input_event" from="." to="." method="_on_input_event"]
+[node name="ConditionLabel" type="RichTextLabel" parent="."]
+offset_left = -30.0
+offset_top = 10.0
+offset_right = 30.0
+offset_bottom = 40.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "[center][화분]
+물 필요[/center]"
+scroll_active = false
+scroll_following = true

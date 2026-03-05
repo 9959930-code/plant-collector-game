@@ -32,8 +32,8 @@ offset_bottom = 10.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_shadow")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.22, 0.22)
-offset = Vector2(0, -10)
+# 삭제: scale = Vector2(0.22, 0.22) (원래 이미지 크기를 그대로 사용)
+offset = Vector2(0, -14)
 
 [node name="DustParticles" type="CPUParticles2D" parent="."]
 position = Vector2(0, 6)
@@ -63,6 +63,6 @@ collision_mask = 2
 enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+# 줌을 1로 초기화 (뷰포트 자체가 640x360이므로 충분히 레트로함)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0

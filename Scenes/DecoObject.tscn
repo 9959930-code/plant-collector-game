@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://deco_object_scene"]
+
+[ext_resource type="Texture2D" path="res://Assets/Images/field_autotile.png" id="1_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_deco"]
+size = Vector2(24, 12)
+
+[node name="DecoObject" type="StaticBody2D"]
+y_sort_enabled = true
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tex")
+offset = Vector2(0, -16)
+region_enabled = true
+region_rect = Rect2(0, 192, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_deco")
