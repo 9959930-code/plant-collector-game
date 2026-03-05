@@ -102,7 +102,7 @@ func add_log(text: String):
 
 func _on_explore_button_pressed():
 	trigger_diary("first_explore")
-	get_tree().change_scene_to_file("res://Scenes/FieldExplore.tscn")
+	get_tree().change_scene_to_file("res://Scenes/FieldMap.tscn")
 
 func _on_shop_button_pressed():
 	if money >= 30:
