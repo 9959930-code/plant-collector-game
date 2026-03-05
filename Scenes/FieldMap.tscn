@@ -1,32 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://field_map_scene"]
+[gd_scene load_steps=6 format=3 uid="uid://field_map_scene"]
 
 [ext_resource type="Script" path="res://Scripts/FieldMap.gd" id="1_fm"]
-[ext_resource type="PackedScene" path="res://Scenes/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://Scenes/Player.tscn" id="3_player"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_top"]
+size = Vector2(1280, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_left"]
+size = Vector2(20, 960)
 
 [node name="FieldMap" type="Node2D"]
 script = ExtResource("1_fm")
 
-[node name="Background" type="ColorRect" parent="."]
-offset_right = 800.0
-offset_bottom = 600.0
-color = Color(0.35, 0.55, 0.25, 1)
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(640, 480)
 
-[node name="GrassOverlay" type="ColorRect" parent="."]
-offset_left = 50.0
-offset_top = 50.0
-offset_right = 750.0
-offset_bottom = 550.0
-color = Color(0.4, 0.65, 0.3, 1)
+[node name="MapBounds" type="StaticBody2D" parent="."]
+collision_mask = 0
 
-[node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2(400, 300)
+[node name="Top" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(640, -10)
+shape = SubResource("RectangleShape2D_top")
+
+[node name="Bottom" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(640, 970)
+shape = SubResource("RectangleShape2D_top")
+
+[node name="Left" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(-10, 480)
+shape = SubResource("RectangleShape2D_left")
+
+[node name="Right" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(1290, 480)
+shape = SubResource("RectangleShape2D_left")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="ItemLabel" type="Label" parent="UI"]
 offset_left = 20.0
 offset_top = 15.0
-offset_right = 200.0
+offset_right = 250.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -42,11 +55,11 @@ text = "🏠 돌아가기"
 
 [node name="HintLabel" type="Label" parent="UI"]
 offset_left = 20.0
-offset_top = 600.0
+offset_top = 610.0
 offset_right = 400.0
-offset_bottom = 630.0
+offset_bottom = 640.0
 theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(1, 1, 0.8, 0.8)
-text = "화살표/WASD: 이동 | Z/Space: 채집"
+text = "화살표: 이동 | Z/Space: 채집"
 
 [connection signal="pressed" from="UI/BackButton" to="." method="_on_back_pressed"]

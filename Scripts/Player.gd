@@ -3,7 +3,7 @@ extends CharacterBody2D
 ## 플레이어 캐릭터 — 4방향 이동 + 애니메이션
 ## 스타듀밸리/포켓몬 스타일 탑다운 2D 이동
 
-const SPEED = 120.0
+const SPEED = 80.0
 
 @onready var anim_sprite = $AnimatedSprite2D
 @onready var interact_ray = $InteractRay
@@ -13,27 +13,25 @@ var is_moving = false
 var spritesheet: Texture2D
 
 func _ready():
-	# 스프라이트시트에서 애니메이션 프레임 자동 생성
 	spritesheet = preload("res://Assets/Images/character_spritesheet.png")
 	setup_animations()
 
 func setup_animations():
 	var frames = SpriteFrames.new()
 	var img = spritesheet.get_image()
-	var sheet_w = img.get_width()
-	var sheet_h = img.get_height()
-	var cols = 4
-	var rows = 4
+	var sheet_w: int = img.get_width()
+	var sheet_h: int = img.get_height()
+	var cols: int = 4
+	var rows: int = 4
 	var frame_w: int = sheet_w / cols
 	var frame_h: int = sheet_h / rows
 	
-	# 4방향: down(0), left(1), right(2), up(3)
 	var dir_names = ["down", "left", "right", "up"]
 	
 	for row in range(rows):
 		var dir_name = dir_names[row]
 		
-		# idle 애니메이션 (첫 프레임만)
+		# idle 애니메이션
 		var idle_name = "idle_" + dir_name
 		frames.add_animation(idle_name)
 		frames.set_animation_speed(idle_name, 6)
@@ -44,7 +42,7 @@ func setup_animations():
 		var idle_tex = ImageTexture.create_from_image(idle_img)
 		frames.add_frame(idle_name, idle_tex)
 		
-		# walk 애니메이션 (모든 프레임)
+		# walk 애니메이션
 		var walk_name = "walk_" + dir_name
 		frames.add_animation(walk_name)
 		frames.set_animation_speed(walk_name, 8)
@@ -56,7 +54,6 @@ func setup_animations():
 			var frame_tex = ImageTexture.create_from_image(frame_img)
 			frames.add_frame(walk_name, frame_tex)
 	
-	# 기본 "default" 애니메이션 제거
 	if frames.has_animation("default"):
 		frames.remove_animation("default")
 	
@@ -66,7 +63,6 @@ func setup_animations():
 func _physics_process(_delta):
 	var input_dir = Vector2.ZERO
 	
-	# 키보드 입력
 	if Input.is_action_pressed("ui_right"):
 		input_dir.x += 1
 		direction = "right"
@@ -86,10 +82,10 @@ func _physics_process(_delta):
 		is_moving = true
 		
 		match direction:
-			"down": interact_ray.target_position = Vector2(0, 20)
-			"up": interact_ray.target_position = Vector2(0, -20)
-			"left": interact_ray.target_position = Vector2(-20, 0)
-			"right": interact_ray.target_position = Vector2(20, 0)
+			"down": interact_ray.target_position = Vector2(0, 16)
+			"up": interact_ray.target_position = Vector2(0, -16)
+			"left": interact_ray.target_position = Vector2(-16, 0)
+			"right": interact_ray.target_position = Vector2(16, 0)
 	else:
 		velocity = Vector2.ZERO
 		is_moving = false
