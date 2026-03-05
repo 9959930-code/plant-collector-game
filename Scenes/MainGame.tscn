@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://main_game_scene"]
 
 [ext_resource type="Script" path="res://Scripts/MainGame.gd" id="1_mgs"]
-[ext_resource type="Texture2D" uid="uid://bg_greenhouse" path="res://Assets/Images/bg_greenhouse.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://bv7xct0q2fk4m" path="res://Assets/Images/bg_greenhouse.png" id="2_bg"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_mgs")

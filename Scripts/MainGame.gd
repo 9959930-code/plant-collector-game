@@ -207,7 +207,3 @@ func _on_reward_received(reward_type: String):
 		var offset_x = 300 + (pots.size() * 150)
 		spawn_new_pot(Vector2(offset_x, 324), chosen)
 		add_log("🌟 특별한 [%s] 씨앗을 받았습니다!" % chosen)
-
-
-
-
