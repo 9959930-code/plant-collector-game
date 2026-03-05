@@ -24,8 +24,8 @@ func setup_animations():
 	var sheet_h = img.get_height()
 	var cols = 4
 	var rows = 4
-	var frame_w = sheet_w / cols
-	var frame_h = sheet_h / rows
+	var frame_w: int = sheet_w / cols
+	var frame_h: int = sheet_h / rows
 	
 	# 4방향: down(0), left(1), right(2), up(3)
 	var dir_names = ["down", "left", "right", "up"]

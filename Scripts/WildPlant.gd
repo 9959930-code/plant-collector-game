@@ -1,20 +1,33 @@
 extends StaticBody2D
 
 ## 야생 식물 오브젝트 — 캐릭터가 다가가서 상호작용하면 채집
-## 들판에 랜덤 배치되며, 인터랙션 시 채집 애니메이션 재생
 
 signal collected(plant_data: Dictionary)
 
-@onready var sprite = $Sprite2D
-@onready var label = $Label
-
 var plant_data: Dictionary = {}
 var is_collected = false
+var _pending_setup: Dictionary = {}
+
+func _ready():
+	# setup()이 _ready() 전에 호출될 수 있으므로 여기서 적용
+	if not _pending_setup.is_empty():
+		_apply_setup(_pending_setup)
 
 func setup(data: Dictionary):
 	plant_data = data
-	label.text = data["name"]
-	sprite.modulate = data["color"]
+	_pending_setup = data
+	# _ready 이후라면 바로 적용
+	if is_inside_tree():
+		_apply_setup(data)
+
+func _apply_setup(data: Dictionary):
+	var lbl = $Label
+	var spr = $Sprite2D
+	if lbl:
+		lbl.text = data["name"]
+		lbl.visible = true
+	if spr:
+		spr.modulate = data["color"]
 
 func on_interact(_player):
 	if is_collected:
@@ -22,11 +35,15 @@ func on_interact(_player):
 	
 	is_collected = true
 	
-	# 채집 연출: 위로 튀기 + 사라짐
+	var spr = $Sprite2D
+	var lbl = $Label
+	
 	var tween = create_tween()
 	tween.tween_property(self, "position:y", position.y - 20, 0.2)
-	tween.parallel().tween_property(sprite, "modulate:a", 0.0, 0.4)
-	tween.parallel().tween_property(label, "modulate:a", 0.0, 0.4)
+	if spr:
+		tween.parallel().tween_property(spr, "modulate:a", 0.0, 0.4)
+	if lbl:
+		tween.parallel().tween_property(lbl, "modulate:a", 0.0, 0.4)
 	tween.tween_callback(func():
 		emit_signal("collected", plant_data)
 		queue_free()
