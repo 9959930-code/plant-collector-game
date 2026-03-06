@@ -25,15 +25,14 @@ collision_layer = 1
 collision_mask = 1
 
 [node name="Shadow" type="Panel" parent="."]
-offset_left = -6.0
-offset_top = 4.0
-offset_right = 6.0
-offset_bottom = 10.0
+offset_left = -12.0
+offset_top = -2.0
+offset_right = 12.0
+offset_bottom = 4.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_shadow")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-# 삭제: scale = Vector2(0.22, 0.22) (원래 이미지 크기를 그대로 사용)
-offset = Vector2(0, -14)
+offset = Vector2(0, -28)
 
 [node name="DustParticles" type="CPUParticles2D" parent="."]
 position = Vector2(0, 6)
@@ -54,7 +53,7 @@ scale_amount_curve = SubResource("Curve_dust")
 color_ramp = SubResource("Gradient_dust")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, 0)
 shape = SubResource("RectangleShape2D_player")
 
 [node name="InteractRay" type="RayCast2D" parent="."]

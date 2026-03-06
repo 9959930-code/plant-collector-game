@@ -34,20 +34,20 @@ func _ready():
 			update_ui()
 
 func _draw_balcony_map():
-	# 640x360 (타일크기 64x64 -> 10x6)
-	var map_w = 10
-	var map_h = 6
+	# 1280x720 (타일크기 64x64 -> 20x11)
+	var map_w = 20
+	var map_h = 11
 	
 	for x in range(map_w):
 		for y in range(map_h):
-			if y < 2:
-				# 난간 + 도시 배경 (타일셋에서 (x%10, 2) 정도 위치 가정)
-				tilemap.set_cell(Vector2i(x, y), 0, Vector2i(x, 2))
-			elif y == 2:
-				# 벽면 하단 / 바닥 시작점
+			if y < 4:
+				# 난간 + 도시 배경 구역
+				tilemap.set_cell(Vector2i(x, y), 0, Vector2i(x % 10, 2))
+			elif y == 4:
+				# 바닥 시작점 (난간 바로 아래)
 				tilemap.set_cell(Vector2i(x, y), 0, Vector2i(0, 3))
 			else:
-				# 콘크리트 바닥 타일 (0,0 ~ 2,2 중 랜덤)
+				# 바닥 타일 구역
 				tilemap.set_cell(Vector2i(x, y), 0, Vector2i(randi_range(0, 2), randi_range(0, 2)))
 
 func update_ui():
@@ -68,8 +68,8 @@ func _on_buy_pot_button_pressed():
 		current_money -= 50
 		var pot_data = {
 			"id": Time.get_unix_time_from_system() + randi(),
-			"px": randf_range(64, 576),
-			"py": randf_range(200, 320), # 난간 아래 바닥 구역
+			"px": randf_range(128, 1152),
+			"py": randf_range(320, 600), # 난간 아래 바닥 구역 (y: 5~9)
 			"plant_type": "행운초",
 			"stage": 0,
 			"watered": false

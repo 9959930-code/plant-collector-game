@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/MainGame.gd" id="1_main"]
 [ext_resource type="Texture2D" path="res://Assets/Images/balcony_tileset.png" id="2_tiles"]
 [ext_resource type="Texture2D" path="res://Assets/Images/ui_panels_retro.png" id="3_ui"]
+[ext_resource type="PackedScene" path="res://Scenes/Player.tscn" id="4_player"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_balcony"]
 texture = ExtResource("2_tiles")
@@ -62,6 +63,12 @@ texture_region_size = Vector2i(64, 64)
 tile_size = Vector2i(64, 64)
 sources/0 = SubResource("TileSetAtlasSource_balcony")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(1280, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_side"]
+size = Vector2(20, 720)
+
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_main")
 
@@ -75,11 +82,39 @@ z_index = -1
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)
 
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+color = Color(1, 0.9, 0.8, 1)
+energy = 0.5
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.3)
+
+[node name="MapBounds" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(640, 240)
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Bottom" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(640, 730)
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Left" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(-10, 360)
+shape = SubResource("RectangleShape2D_side")
+
+[node name="Right" type="CollisionShape2D" parent="MapBounds"]
+position = Vector2(1290, 360)
+shape = SubResource("RectangleShape2D_side")
+
 [node name="Environment" type="Node2D" parent="."]
 y_sort_enabled = true
 
 [node name="PotsContainer" type="Node2D" parent="Environment"]
 y_sort_enabled = true
+
+[node name="Player" parent="Environment" instance=ExtResource("4_player")]
+position = Vector2(640, 480)
 
 [node name="UI" type="CanvasLayer" parent="."]
 

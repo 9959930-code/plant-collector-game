@@ -32,22 +32,26 @@ func _ready():
 		update_ui()
 
 func _generate_procedural_map():
-	# 동적 타일맵 레이어 생성
 	tilemap = TileMapLayer.new()
 	tilemap.y_sort_enabled = true
 	add_child(tilemap)
 	move_child(tilemap, 0)
 	
 	var tileset = TileSet.new()
-	tileset.tile_size = Vector2i(32, 32)
+	tileset.tile_size = Vector2i(64, 64)
+	
+	# 오가닉 타일은 Terrain(오토타일) 기능이 필수입니다.
+	tileset.add_terrain_set()
+	tileset.add_terrain(0, 0) # 0번 Terrain 세트, 0번 Terrain ID (DirtPath)
 	
 	var ts_source = TileSetAtlasSource.new()
 	ts_source.texture = preload("res://Assets/Images/field_autotile.png")
 	ts_source.texture_region_size = Vector2i(64, 64)
 	
-	# 8x8 에셋 타일 등록 (풀밭, 흙길)
-	for x in range(8):
-		for y in range(8):
+	# 간단히 생성 (여기서는 시각적 통일성을 위해 중앙 흙길 타일과 주변 풀 잔디 타일 랜덤 배치로 타협)
+	# 완벽한 Terrain 세팅 코드가 방대하므로 Perlin Noise Smoothing으로 부드러운 군집 형성
+	for x in range(10):
+		for y in range(10):
 			ts_source.create_tile(Vector2i(x, y))
 	
 	tileset.add_source(ts_source, 0)
@@ -55,10 +59,10 @@ func _generate_procedural_map():
 	
 	var noise = FastNoiseLite.new()
 	noise.seed = randi()
-	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	noise.frequency = 0.08
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
+	noise.frequency = 0.05
 	
-	# 640x360 맵을 3x3배 스케일로 넓힘 (1920x1080 -> 30x17 타일)
+	# 맵 넓이를 2560x1536 해상도(뷰포트 1280x720의 2x2 사이즈)로 확장
 	var map_w = 40
 	var map_h = 24
 	
@@ -67,19 +71,16 @@ func _generate_procedural_map():
 	player.get_node("Camera2D").limit_right = map_w * 64
 	player.get_node("Camera2D").limit_bottom = map_h * 64
 	
-	# 장애물 컨테이너
 	var deco_container = Node2D.new()
 	deco_container.y_sort_enabled = true
 	add_child(deco_container)
 	
-	# 덤불/나무 기둥 리전 데이터 (field_autotile.png 내 위치)
 	var deco_regions = [
-		Rect2(0, 192, 64, 64), # 큰 덤불
+		Rect2(0, 192, 64, 64), # 덤불
 		Rect2(64, 192, 64, 64),
 		Rect2(128, 192, 64, 64),
-		Rect2(192, 192, 64, 64), # 나무 기둥
-		Rect2(256, 192, 64, 64),
-		Rect2(320, 192, 64, 64)
+		Rect2(192, 192, 64, 64), # 그루터기
+		Rect2(256, 192, 64, 64)
 	]
 	var deco_scene = preload("res://Scenes/DecoObject.tscn")
 	
@@ -90,31 +91,31 @@ func _generate_procedural_map():
 			var tile_x = 0
 			var tile_y = 0
 			
-			if n > 0.3:
-				# 흙길 (대략 1,1)
-				tile_x = 1
-				tile_y = 1
-			elif n < -0.3:
-				# 짙은 잔디
-				tile_x = 2
-				tile_y = 0
+			if n > 0.2:
+				# 흙길 (대체로 중앙)
+				tile_x = randi_range(6, 8)
+				tile_y = randi_range(0, 2)
+			elif n > 0.0:
+				# 흙길 경계
+				tile_x = randi_range(5, 6)
+				tile_y = randi_range(3, 4)
 			else:
-				# 기본 잔디 (0,0)
-				tile_x = 0
-				tile_y = 0
+				# 기본 잔디
+				tile_x = randi_range(0, 2)
+				tile_y = randi_range(0, 2)
 			
-			# 테두리는 어두운 숲 타일(추후 보정)로 덮기 (여기서는 임시로 풀밭)
+			# 테두리를 강제 숲 장벽으로 처리 (맵 블로킹 겸용 장식)
 			if x == 0 or x == map_w - 1 or y == 0 or y == map_h - 1:
 				tile_x = 0
-				tile_y = 0
+				tile_y = 4 # 울창한 경계
 			
 			tilemap.set_cell(Vector2i(x, y), 0, Vector2i(tile_x, tile_y))
 			
-			# 내부 장식물(덤불, 그루터기) 스폰 확률 4%
+			# Y-sort 적용된 덤불/나무 기둥 장애물 장식 확률 배치
 			if x > 2 and x < map_w - 2 and y > 2 and y < map_h - 2:
-				if randf() < 0.04 and n <= 0.3: # 흙길 위에는 장식물 안 생기게
+				if randf() < 0.05 and n <= 0.0: # 잔디 지역에만 생성
 					var deco = deco_scene.instantiate()
-					deco.position = Vector2(x * 64 + 32 + randf_range(-10, 10), y * 64 + 32 + randf_range(-10, 10))
+					deco.position = Vector2(x * 64 + 32, y * 64 + 32)
 					deco.get_node("Sprite2D").region_rect = deco_regions[randi() % deco_regions.size()]
 					deco_container.add_child(deco)
 
