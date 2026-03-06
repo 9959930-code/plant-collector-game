@@ -59,6 +59,7 @@ func setup_animations():
 		frames.remove_animation("default")
 	
 	anim_sprite.sprite_frames = frames
+	anim_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	anim_sprite.play("idle_down")
 
 func _physics_process(_delta):
